@@ -1,0 +1,46 @@
+name: Doxygen Docs (public)
+
+on:
+  push:
+    branches: [ main ]   # change if your default branch is different
+  workflow_dispatch:
+
+# Needed for Pages deploy
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Doxygen + Graphviz
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz
+
+      - name: Generate docs
+        run: |
+          set -eux
+          cd src/Doxygen
+          doxygen Config_Python
+          cd ../../
+          mkdir -p Python_API
+          cp -a src/Doxygen/Python_API/html/. Python_API/
+
+      # Upload the folder that should become the Pages site
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: Python_API
+
