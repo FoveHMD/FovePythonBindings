@@ -2,4 +2,6 @@
 
 This repo contains python bindings of the public FOVE SDK.
 
-[todo add more info]
+For more information, please refer to our SDK documentation: https://fove-inc.com/downloads/
+
+And we provide one simple example under the [example](/example/) directory for reference.
