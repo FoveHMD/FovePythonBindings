@@ -1,0 +1,5 @@
+.build
+.vscode
+/build
+/docker/linux/_base/fove-service
+/docker/linux/_base/fove-compositor
